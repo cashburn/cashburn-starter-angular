@@ -73,3 +73,5 @@ For more information on using the Angular CLI, including detailed command refere
 5. Run Prettier
     1. Add eslint/prettier scripts to package.json
     2. Run `npm run prettier:fix`
+6. `ng generate application @cashburn/app`
+    1. SCSS

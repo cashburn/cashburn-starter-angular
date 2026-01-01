@@ -21,5 +21,13 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "files": []
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/cashburn/app/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/cashburn/app/tsconfig.spec.json"
+    }
+  ]
 }
