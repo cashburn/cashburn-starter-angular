@@ -38,6 +38,8 @@
     "@angular/compiler-cli": "^21.0.0",
     "angular-eslint": "21.1.0",
     "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.7.4",
     "typescript": "~5.9.2",
     "typescript-eslint": "8.47.0"
   }

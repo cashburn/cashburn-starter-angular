@@ -59,7 +59,13 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
 # Steps to get here
+
 1. `ng new cashburn-starter-angular --create-applicatino=false`
-   1. Select Gemini
+    1. Select Gemini
 2. Add `.editorconfig` changes
 3. `ng add angular-eslint`
+4. Add Prettier
+    1. `npm install --save-dev prettier`
+    2. `npm install --save-dev eslint-config-prettier`
+    3. Add eslint-config-prettier to eslint.config.js
+    4. Add VSCode Prettier/ESLint extensions
