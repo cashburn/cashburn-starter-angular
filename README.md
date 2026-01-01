@@ -76,3 +76,7 @@ For more information on using the Angular CLI, including detailed command refere
 6. `ng generate application @cashburn/app`
     1. SCSS
 7. Update .gitignore
+8. Add Husky/Lint-Staged with Prettier
+9. Add `eslint-plugin-simple-import-sort`
+    1. `npm install --save-dev eslint-plugin-simple-import-sort`
+    2. Add plugin/rules to eslint.config.js

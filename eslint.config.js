@@ -4,6 +4,7 @@ const { defineConfig } = require('eslint/config');
 const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
 const eslintConfigPrettier = require('eslint-config-prettier/flat');
+const simpleImportSort = require('eslint-plugin-simple-import-sort');
 
 module.exports = defineConfig([
     {
@@ -15,8 +16,14 @@ module.exports = defineConfig([
             angular.configs.tsRecommended,
             eslintConfigPrettier,
         ],
+        plugins: {
+            'simple-import-sort': simpleImportSort,
+        },
         processor: angular.processInlineTemplates,
-        rules: {},
+        rules: {
+            'simple-import-sort/imports': 'error',
+            'simple-import-sort/exports': 'error',
+        },
     },
     {
         files: ['**/*.html'],
