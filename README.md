@@ -69,3 +69,7 @@ For more information on using the Angular CLI, including detailed command refere
     2. `npm install --save-dev eslint-config-prettier`
     3. Add eslint-config-prettier to eslint.config.js
     4. Add VSCode Prettier/ESLint extensions
+    5. Add `.vscode/settings.json`
+5. Run Prettier
+    1. Add eslint/prettier scripts to package.json
+    2. Run `npm run prettier:fix`
