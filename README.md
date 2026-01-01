@@ -62,3 +62,4 @@ For more information on using the Angular CLI, including detailed command refere
 1. `ng new cashburn-starter-angular --create-applicatino=false`
    1. Select Gemini
 2. Add `.editorconfig` changes
+3. `ng add angular-eslint`
