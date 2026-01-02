@@ -83,3 +83,4 @@ For more information on using the Angular CLI, including detailed command refere
 10. Add code coverage and junit test reporting
     1. Add `test:ci` script
     2. `npm install --save-dev @vitest/coverage-v8`
+11. Add CI/CD from [cashburn-starter-tf](https://github.com/cashburn/cashburn-starter-tf) project
