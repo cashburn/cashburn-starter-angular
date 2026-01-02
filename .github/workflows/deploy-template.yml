@@ -71,6 +71,11 @@ jobs:
         run: |
           echo "SWA_API_KEY=$(terraform output -raw static_web_app_api_key)" >> $GITHUB_ENV
 
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v7
+        with:
+          name: dist
+
       # - name: Deploy to Azure Static Web Apps
       #   uses: Azure/static-web-apps-deploy@v1
       #   with:

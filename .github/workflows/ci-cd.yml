@@ -72,6 +72,12 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Publish build artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: dist
+          path: dist
+
   tf-validate:
     name: Terraform Validate
     runs-on: ubuntu-latest
