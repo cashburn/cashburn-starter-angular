@@ -16,3 +16,9 @@ resource "azurerm_static_web_app" "swa" {
     managed_by  = "terraform"
   }
 }
+
+resource "azurerm_static_web_app_custom_domain" "custom_domain" {
+  static_web_app_id = azurerm_static_web_app.swa.id
+  domain_name       = var.app_url
+  validation_type   = "dns-txt-token"
+}
