@@ -84,3 +84,8 @@ For more information on using the Angular CLI, including detailed command refere
     1. Add `test:ci` script
     2. `npm install --save-dev @vitest/coverage-v8`
 11. Add CI/CD from [cashburn-starter-tf](https://github.com/cashburn/cashburn-starter-tf) project
+    1. Copy `/infra` folder
+    2. Run `/infra/setup.ps1` for NPD
+    3. Add NPD env vars to GitHub Environment Variables
+    4. Run `/infra/setup.ps1` for Prod
+    5. Add Prod env vars to GitHub Prod environment
