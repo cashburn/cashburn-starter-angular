@@ -21,3 +21,8 @@ variable "location" {
   type    = string
   default = "centralus"
 }
+
+variable "app_url" {
+  type        = string
+  description = "The custom domain name for the Static Web App, e.g., cashburn-starter-angular-dev.colinashburn.com"
+}

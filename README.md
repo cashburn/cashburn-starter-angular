@@ -89,3 +89,12 @@ For more information on using the Angular CLI, including detailed command refere
     3. Add NPD env vars to GitHub Environment Variables
     4. Run `/infra/setup.ps1` for Prod
     5. Add Prod env vars to GitHub Prod environment
+    6. Add reviewer for Prod env
+12. Add SWA to Terraform
+13. Deploy to Azure
+14. Add Custom Domain
+    1. Set `app_url` in `*.tfvars`
+    2. In Azure, go to your newly created Static Web App and under `Custom Domains` get the TXT validation record (it should say "Validating")
+    3. In your DNS hosting platform, add a TXT record for the Azure Static Web App Custom Domain validation
+    4. Wait at least 15 mins; in Azure, the Custom Domain should now say "Validated"
+    5. In your DNS hosting platform, add a CNAME record for the subdomain (or `www`) pointing to the `{random}.azurestaticapps.net` url output in your Terraform Apply logs

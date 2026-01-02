@@ -43,9 +43,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Replace this with actual unit test steps
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: npm install
+        run: npm install
+
       - name: Run Unit Tests
-        run: echo "Running unit tests..."
+        run: npm test
 
   build:
     name: Build
@@ -54,9 +61,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Replace this with actual build steps
-      - name: Build Application
-        run: echo "Building application..."
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: npm install
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish build artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: dist
+          path: dist
 
   tf-validate:
     name: Terraform Validate

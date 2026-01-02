@@ -66,6 +66,22 @@ jobs:
         working-directory: ${{ inputs.terraform_dir }}
         run: terraform apply tfplan
 
-      # Replace this with your deployment steps
-      - name: Deployment Complete
-        run: echo "Deployment completed successfully."
+      - name: Get Static Web App API Key
+        working-directory: infra
+        run: |
+          echo "SWA_API_KEY=$(terraform output -raw static_web_app_api_key)" >> $GITHUB_ENV
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v7
+        with:
+          name: dist
+          path: dist
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ env.SWA_API_KEY }}
+          action: upload
+          app_location: 'dist/@cashburn/app/browser'
+          output_location: ''
+          skip_app_build: true
