@@ -114,31 +114,13 @@ jobs:
   dev-deploy:
     name: Dev - Deploy
     needs: [cd-gate]
-    if: ${{ !startsWith(github.ref, 'refs/heads/releases/') }}
     uses: ./.github/workflows/deploy-template.yml
     with:
       env: dev
 
-  test-deploy:
-    name: Test - Deploy
-    needs: [dev-deploy]
-    if: ${{ !startsWith(github.ref, 'refs/heads/releases/') }}
-    uses: ./.github/workflows/deploy-template.yml
-    with:
-      env: test
-
-  stage-deploy:
-    name: Stage - Deploy
-    needs: [cd-gate]
-    if: ${{ startsWith(github.ref, 'refs/heads/releases/') }}
-    uses: ./.github/workflows/deploy-template.yml
-    with:
-      env: stage
-
   prod-deploy:
     name: Prod - Deploy
-    needs: [stage-deploy]
-    if: ${{ startsWith(github.ref, 'refs/heads/releases/') }}
+    needs: [dev-deploy]
     uses: ./.github/workflows/deploy-template.yml
     with:
       env: prod
