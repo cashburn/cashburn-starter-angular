@@ -55,6 +55,9 @@
     "typescript-eslint": "8.47.0",
     "vitest": "^4.0.16"
   },
+  "engines": {
+    "node": "24.x.x"
+  },
   "lint-staged": {
     "*.{js,ts,html}": "eslint --cache --fix",
     "*.{js,ts,html,css,scss,md,json}": "prettier --write"
