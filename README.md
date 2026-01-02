@@ -89,3 +89,4 @@ For more information on using the Angular CLI, including detailed command refere
     3. Add NPD env vars to GitHub Environment Variables
     4. Run `/infra/setup.ps1` for Prod
     5. Add Prod env vars to GitHub Prod environment
+12. Add SWA to Terraform
