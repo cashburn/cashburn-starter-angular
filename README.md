@@ -80,3 +80,6 @@ For more information on using the Angular CLI, including detailed command refere
 9. Add `eslint-plugin-simple-import-sort`
     1. `npm install --save-dev eslint-plugin-simple-import-sort`
     2. Add plugin/rules to eslint.config.js
+10. Add code coverage and junit test reporting
+    1. Add `test:ci` script
+    2. `npm install --save-dev @vitest/coverage-v8`

@@ -48,3 +48,4 @@ Thumbs.db
 # Unit tests
 TESTS-*.xml
 test-results
+test-results.xml
