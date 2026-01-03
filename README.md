@@ -98,3 +98,10 @@ For more information on using the Angular CLI, including detailed command refere
     3. In your DNS hosting platform, add a TXT record for the Azure Static Web App Custom Domain validation
     4. Wait at least 15 mins; in Azure, the Custom Domain should now say "Validated"
     5. In your DNS hosting platform, add a CNAME record for the subdomain (or `www`) pointing to the `{random}.azurestaticapps.net` url output in your Terraform Apply logs
+15. Add GitHub Repository Settings using [cashburn-starter-tf-github-settings](https://github.com/cashburn/cashburn-starter-tf-github-settings)
+    1. Follow all instructions:
+    2. Generate a PAT for only this repo, with:
+        1. Administration - Read & Write
+        2. Contents - Read
+    3. Add the PAT as a Repository secret
+    4. Push the changes
