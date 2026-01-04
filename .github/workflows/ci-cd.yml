@@ -59,9 +59,11 @@ jobs:
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
+        if: (!cancelled())
         with:
           files: |
             test-results.xml
+          comment_mode: off
 
       - name: Publish coverage report
         if: ${{ always() }}
