@@ -33,6 +33,7 @@ permissions:
   contents: read
   actions: read # To read workflow runs and artifacts
   pull-requests: write # To comment on pull requests
+  checks: write # To create check runs
 
 jobs:
   # ------------------------------------
