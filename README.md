@@ -107,3 +107,5 @@ For more information on using the Angular CLI, including detailed command refere
     4. Push the changes
 16. `ng generate library @cashburn/core`
 17. `ng generate component --project @cashburn/app shell`
+18. `ng generate component --project @cashburn/core AppConfig`
+19. Update settings.json to add eslint errors as warnings
