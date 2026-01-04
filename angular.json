@@ -83,6 +83,42 @@
           }
         }
       }
+    },
+    "@cashburn/core": {
+      "projectType": "library",
+      "root": "projects/cashburn/core",
+      "sourceRoot": "projects/cashburn/core/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/cashburn/core/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/cashburn/core/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/cashburn/core/tsconfig.spec.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/cashburn/core/**/*.ts",
+              "projects/cashburn/core/**/*.html"
+            ],
+            "eslintConfig": "projects/cashburn/core/eslint.config.js"
+          }
+        }
+      }
     }
   }
 }

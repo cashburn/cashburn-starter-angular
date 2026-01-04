@@ -105,3 +105,5 @@ For more information on using the Angular CLI, including detailed command refere
         2. Contents - Read
     3. Add the PAT as a Repository secret
     4. Push the changes
+16. `ng generate library @cashburn/core`
+17. `ng generate component --project @cashburn/app shell`
