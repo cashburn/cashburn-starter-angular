@@ -65,7 +65,7 @@ jobs:
             test-results.xml
           comment_mode: off
 
-      - name: Publish coverage report
+      - name: Publish Coverage Report
         if: ${{ always() }}
         uses: actions/upload-artifact@v6
         with:
