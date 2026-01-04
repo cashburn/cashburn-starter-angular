@@ -110,3 +110,6 @@ For more information on using the Angular CLI, including detailed command refere
 18. `ng generate component --project @cashburn/core AppConfig`
 19. Update settings.json to add eslint errors as warnings
 20. `ng add @angular/material --project @cashburn/app`
+21. Create AppConfig
+    1. `ng generate interface config/models/config --project @cashburn/core`
+    2. `ng generate service config/app-config`
