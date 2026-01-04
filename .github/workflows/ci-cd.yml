@@ -31,6 +31,9 @@ on:
 permissions:
   id-token: write
   contents: read
+  actions: read # To read workflow runs and artifacts
+  pull-requests: write # To comment on pull requests
+  checks: write # To create check runs
 
 jobs:
   # ------------------------------------
@@ -52,7 +55,22 @@ jobs:
         run: npm install
 
       - name: Run Unit Tests
-        run: npm test
+        run: npm run test:ci
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: (!cancelled())
+        with:
+          files: |
+            test-results.xml
+          comment_mode: off
+
+      - name: Publish Coverage Report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: coverage-report
+          path: coverage
 
   build:
     name: Build
