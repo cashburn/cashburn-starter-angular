@@ -7,7 +7,7 @@
     "build": "ng build @cashburn/app --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "test:ci": "ng test --watch=false --coverage --coverage-reporters=text-summary --coverage-reporters=lcov --coverage-reporters=json-summary --reporters=default --reporters=junit --output-file=test-results.xml",
+    "test:ci": "ng test --watch=false --coverage --coverage-reporters=text-summary --coverage-reporters=lcov --coverage-reporters=json-summary --reporters=default --reporters=junit --output-file=test-results/test-results.xml",
     "test:app": "ng test @cashburn/app",
     "test:core": "ng test @cashburn/core",
     "lint": "ng lint",

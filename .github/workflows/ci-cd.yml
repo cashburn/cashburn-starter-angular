@@ -62,7 +62,7 @@ jobs:
         if: (!cancelled())
         with:
           files: |
-            test-results.xml
+            test-results/*.xml
           comment_mode: off
 
       - name: Publish Coverage Report
