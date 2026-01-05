@@ -43,6 +43,17 @@ resource "github_repository_ruleset" "default" {
       require_code_owner_review       = true
     }
 
+    required_status_checks {
+      required_check {
+        context = "Test"
+      }
+      required_check {
+        context = "Build"
+      }
+      required_check {
+        context = "Terraform Validate"
+      }
+    }
   }
   bypass_actors {
     actor_id    = 5 # Anyone with Repository Admin role
@@ -90,7 +101,6 @@ resource "github_repository_ruleset" "releases" {
         context = "Terraform Validate"
       }
     }
-
   }
   bypass_actors {
     actor_id    = 5 # Anyone with Repository Admin role
