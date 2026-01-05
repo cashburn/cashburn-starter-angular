@@ -4,7 +4,8 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "@cashburn/core": ["./dist/cashburn/core"]
+      "@cashburn/core": ["./projects/cashburn/core"],
+      "@cashburn/core/*": ["./projects/cashburn/core/*"]
     },
     "strict": true,
     "noImplicitOverride": true,
