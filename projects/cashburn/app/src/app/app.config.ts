@@ -9,6 +9,7 @@ import { provideRouter } from '@angular/router';
 import { AppConfigStore, ENV_NAME } from '@cashburn/core';
 import { firstValueFrom } from 'rxjs';
 
+import { environment } from '../environments/environment';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -20,6 +21,11 @@ export const appConfig: ApplicationConfig = {
             const configService = inject(AppConfigStore);
             return firstValueFrom(configService.loadConfig());
         }),
-        { provide: ENV_NAME, useValue: 'dev' },
+
+        /** Set the env name in ../environments/environment.ts
+         * When set to 'dev' it will use config.dev.json
+         * When set to '' it will use config.json (created by CI/CD)
+         */
+        { provide: ENV_NAME, useValue: environment.envName },
     ],
 };

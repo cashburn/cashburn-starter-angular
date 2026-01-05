@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build @cashburn/app",
+    "build": "ng build @cashburn/app --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --watch=false --coverage --coverage-reporters=text-summary --coverage-reporters=lcov --coverage-reporters=json-summary --reporters=default --reporters=junit --output-file=test-results.xml",

@@ -77,7 +77,12 @@ jobs:
           name: dist
           path: dist
 
+      - name: Replace config.json
+        run: |
+          cp "dist/@cashburn/app/browser/config/config.${{ inputs.env }}.json" "dist/@cashburn/app/browser/config/config.json"
+
       - name: Deploy to Azure Static Web Apps
+        if: ${{ inputs.destroy == false }}
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ env.SWA_API_KEY }}
