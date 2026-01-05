@@ -26,6 +26,12 @@ module.exports = defineConfig([
         },
     },
     {
+        files: ['**/*.spec.ts'],
+        rules: {
+            '@typescript-eslint/no-unused-vars': 'off',
+        },
+    },
+    {
         files: ['**/*.html'],
         extends: [
             angular.configs.templateRecommended,

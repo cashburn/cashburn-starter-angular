@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockAppConfigStore } from '@cashburn/core';
 
 import { Shell } from './shell';
 
@@ -9,6 +10,7 @@ describe('Shell', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [Shell],
+            providers: [provideMockAppConfigStore],
         }).compileComponents();
 
         fixture = TestBed.createComponent(Shell);

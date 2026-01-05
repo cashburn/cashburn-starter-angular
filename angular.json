@@ -29,6 +29,11 @@
               {
                 "glob": "**/*",
                 "input": "projects/cashburn/app/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/cashburn/app/config",
+                "output": "/config"
               }
             ],
             "styles": ["projects/cashburn/app/src/styles.scss"]
