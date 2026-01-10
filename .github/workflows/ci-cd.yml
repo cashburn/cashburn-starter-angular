@@ -57,20 +57,27 @@ jobs:
       - name: Run Unit Tests
         run: npm run test:ci
 
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: (!cancelled())
+      - name: Test Summary
+        uses: test-summary/action@v2
         with:
-          files: |
+          paths: |
             test-results/*.xml
-          comment_mode: off
+          show: 'all'
+        if: (!cancelled())
 
-      - name: Publish Coverage Report
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v6
+      - name: 'Report Core Coverage'
+        uses: davelosert/vitest-coverage-report-action@v2
         with:
-          name: coverage-report
-          path: coverage
+          name: 'Core'
+          json-summary-path: './coverage/@cashburn/core/coverage-summary.json'
+          json-final-path: './coverage/@cashburn/core/coverage-final.json'
+
+      - name: 'Report App Coverage'
+        uses: davelosert/vitest-coverage-report-action@v2
+        with:
+          name: 'App'
+          json-summary-path: './coverage/@cashburn/app/coverage-summary.json'
+          json-final-path: './coverage/@cashburn/app/coverage-final.json'
 
   build:
     name: Build
