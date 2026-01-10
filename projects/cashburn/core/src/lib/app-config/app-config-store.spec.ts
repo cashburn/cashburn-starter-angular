@@ -73,7 +73,7 @@ describe('AppConfigStore', () => {
         expect(await configPromise).toEqual(mockConfig);
 
         expect(() => service.getConfigValue('apiUrl2' as keyof AppConfig)).toThrowError(
-            'Config value not found1.',
+            'Config value not found.',
         );
     });
 });

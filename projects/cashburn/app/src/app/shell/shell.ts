@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AppConfigStore } from '@cashburn/core';
 @Component({
@@ -10,4 +10,8 @@ import { AppConfigStore } from '@cashburn/core';
 export class Shell {
     private readonly appConfigStore = inject(AppConfigStore);
     public readonly envName = this.appConfigStore.getConfigValue('environment');
+
+    private sampleSignal() {
+        return signal('sample');
+    }
 }
