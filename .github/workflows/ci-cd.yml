@@ -57,15 +57,11 @@ jobs:
       - name: Run Unit Tests
         run: npm run test:ci
 
-      - name: List Test Results
-        run: ls -la test-results
-
       - name: Test Summary
         uses: test-summary/action@v2
         with:
           paths: |
-            test-results/core.xml
-            test-results/app.xml
+            test-results/*.xml
           show: 'all'
         if: (!cancelled())
 
