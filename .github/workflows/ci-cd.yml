@@ -108,6 +108,7 @@ jobs:
           file-coverage-mode: ${{(github.event_name == 'pull_request' && 'changes') || 'all'}}
           json-summary-path: ./coverage/${{ matrix.project }}/coverage-summary.json
           json-final-path: ./coverage/${{ matrix.project }}/coverage-final.json
+          threshold-icons: "{0: '🔴', 70: '🟠', 80: '🟢'}"
 
   build:
     name: Build
