@@ -61,7 +61,7 @@ jobs:
         uses: test-summary/action@v2
         with:
           paths: 'test-results/**/*.xml'
-        if: !cancelled()
+        if: (!cancelled())
 
       - name: Publish Coverage Report
         if: ${{ always() }}
