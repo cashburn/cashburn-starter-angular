@@ -61,7 +61,8 @@ jobs:
         uses: test-summary/action@v2
         with:
           paths: |
-            'test-results/*.xml'
+            'test-results/core.xml'
+            'test-results/app.xml'
           show: 'all'
         if: (!cancelled())
 
