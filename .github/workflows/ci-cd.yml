@@ -57,13 +57,11 @@ jobs:
       - name: Run Unit Tests
         run: npm run test:ci
 
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: (!cancelled())
+      - name: Test Summary
+        uses: test-summary/action@v2
         with:
-          files: |
-            test-results/*.xml
-          comment_mode: off
+          paths: 'test-results/**/*.xml'
+        if: !cancelled()
 
       - name: Publish Coverage Report
         if: ${{ always() }}
