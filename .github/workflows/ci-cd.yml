@@ -57,6 +57,9 @@ jobs:
       - name: Run Unit Tests
         run: npm run test:ci
 
+      - name: List Test Results
+        run: ls -la test-results
+
       - name: Test Summary
         uses: test-summary/action@v2
         with:
