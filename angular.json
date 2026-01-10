@@ -83,6 +83,7 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
+            "runnerConfig": "projects/cashburn/app/vitest.config.ts",
             "coverageInclude": ["projects/cashburn/app/**/*.ts"],
             "coverageExclude": ["*.mock.ts"]
           }
