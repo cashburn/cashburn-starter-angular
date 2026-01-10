@@ -104,8 +104,6 @@ jobs:
       - name: Find latest main run id
         run: |
           gh run list --branch main --workflow ci-cd.yml --json databaseId,headBranch,event --jq '.[]
-          # LATEST_MAIN_RUN_ID=$(gh run list --branch main --workflow ci-cd.yml --json databaseId,headBranch,event --jq '.[] | select(.event=="push") | .databaseId' | head -n 1)
-          # echo "LATEST_MAIN_RUN_ID=$LATEST_MAIN_RUN_ID" >> $GITHUB_ENV
 
       - name: Coverage Report
         uses: davelosert/vitest-coverage-report-action@v2
