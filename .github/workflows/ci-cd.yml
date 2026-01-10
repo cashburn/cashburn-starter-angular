@@ -69,6 +69,7 @@ jobs:
         uses: davelosert/vitest-coverage-report-action@v2
         with:
           name: 'Core'
+          file-coverage-mode: ${{(github.event_name == 'pull_request' && 'changes') || 'all'}}
           json-summary-path: './coverage/@cashburn/core/coverage-summary.json'
           json-final-path: './coverage/@cashburn/core/coverage-final.json'
 
@@ -76,6 +77,7 @@ jobs:
         uses: davelosert/vitest-coverage-report-action@v2
         with:
           name: 'App'
+          file-coverage-mode: ${{(github.event_name == 'pull_request' && 'changes') || 'all'}}
           json-summary-path: './coverage/@cashburn/app/coverage-summary.json'
           json-final-path: './coverage/@cashburn/app/coverage-final.json'
 
