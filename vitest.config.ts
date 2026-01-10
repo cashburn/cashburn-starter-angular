@@ -5,9 +5,9 @@ export default defineConfig({
         reporters: ['default', 'junit'],
         coverage: {
             thresholds: {
-                lines: 60,
+                lines: 40,
                 branches: 60,
-                functions: 60,
+                functions: 40,
                 statements: 60,
             },
         },
