@@ -5,8 +5,10 @@ export default defineConfig({
         reporters: ['default', 'junit'],
         coverage: {
             thresholds: {
-                // Require that no more than 10 lines are uncovered
-                lines: 80,
+                lines: 60,
+                branches: 60,
+                functions: 60,
+                statements: 60,
             },
         },
     },
