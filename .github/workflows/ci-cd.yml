@@ -105,14 +105,22 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh run list --branch main --workflow ci-cd.yml --json databaseId,headBranch,event --jq '.[]'
-          # LATEST_MAIN_RUN_ID=$(gh run list --branch main --workflow ci-cd.yml --json databaseId,headBranch,event --jq '.[] | select(.event=="push") | .databaseId' | head -n 1)
-          # echo "LATEST_MAIN_RUN_ID=$LATEST_MAIN_RUN_ID" >> $GITHUB_ENV
+          LATEST_MAIN_RUN_ID=$(gh run list --branch main --workflow ci-cd.yml --json databaseId,headBranch,event --jq '.[] | select(.event=="push") | .databaseId' | head -n 1)
+          echo "LATEST_MAIN_RUN_ID=$LATEST_MAIN_RUN_ID" >> $GITHUB_ENV
+
+      - name: Download main coverage artifacts
+        uses: actions/download-artifact@v4
+        if: ${{ env.LATEST_MAIN_RUN_ID != '' }}
+        with:
+          name: coverage-artifacts
+          path: coverage-main
+          run-id: ${{ env.LATEST_MAIN_RUN_ID }}
 
       - name: Coverage Report
         uses: davelosert/vitest-coverage-report-action@v2
         with:
           name: ${{ matrix.project }}
+          json-summary-compare-path: coverage-main/${{ matrix.project }}/coverage-summary.json
           file-coverage-mode: ${{(github.event_name == 'pull_request' && 'changes') || 'all'}}
           json-summary-path: ./coverage/${{ matrix.project }}/coverage-summary.json
           json-final-path: ./coverage/${{ matrix.project }}/coverage-final.json
