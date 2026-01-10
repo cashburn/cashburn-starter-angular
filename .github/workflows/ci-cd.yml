@@ -102,6 +102,8 @@ jobs:
           path: coverage
 
       - name: Find latest main run id
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh run list --branch main --workflow ci-cd.yml --json databaseId,headBranch,event --jq '.[]'
           # LATEST_MAIN_RUN_ID=$(gh run list --branch main --workflow ci-cd.yml --json databaseId,headBranch,event --jq '.[] | select(.event=="push") | .databaseId' | head -n 1)
