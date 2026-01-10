@@ -70,14 +70,14 @@ jobs:
         with:
           name: 'Core'
           json-summary-path: './coverage/@cashburn/core/coverage-summary.json'
-          # json-final-path: './coverage/@cashburn/core/coverage-final.json'
+          json-final-path: './coverage/@cashburn/core/coverage-final.json'
 
       - name: 'Report App Coverage'
         uses: davelosert/vitest-coverage-report-action@v2
         with:
           name: 'App'
           json-summary-path: './coverage/@cashburn/app/coverage-summary.json'
-          # json-final-path: './coverage/@cashburn/app/coverage-final.json'
+          json-final-path: './coverage/@cashburn/app/coverage-final.json'
 
   build:
     name: Build
