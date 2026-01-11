@@ -79,7 +79,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: (!cancelled())
         with:
-          name: ${{ github.event_name == 'pull_request' && 'coverage-artifacts' || 'coverage' }}
+          name: coverage
           path: coverage/
           retention-days: 1
 
@@ -111,8 +111,9 @@ jobs:
       - name: Download main coverage artifacts
         uses: actions/download-artifact@v4
         if: ${{ env.LATEST_MAIN_RUN_ID != '' }}
+        continue-on-error: true
         with:
-          name: coverage-artifacts
+          name: coverage
           path: coverage-main
           run-id: ${{ env.LATEST_MAIN_RUN_ID }}
 
