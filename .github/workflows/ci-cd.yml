@@ -107,8 +107,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # Get the latest main branch push run (use 'id' field, not 'databaseId')
-          LATEST_MAIN_RUN_ID=$(gh run list --branch ca/finish-coverage --workflow ci-cd.yml --json id,headBranch,event,status --jq '.[] | select(.event=="push" and .status=="completed") | .id' | head -n 1)
+          # Get the latest main branch push run
+          LATEST_MAIN_RUN_ID=$(gh run list --branch ca/finish-coverage --workflow ci-cd.yml --json databaseId,headBranch,event,status --jq '.[] | select(.event=="push" and .status=="completed") | .databaseId' | head -n 1)
           
           if [ -n "$LATEST_MAIN_RUN_ID" ]; then
             echo "Found main branch run ID: $LATEST_MAIN_RUN_ID"
