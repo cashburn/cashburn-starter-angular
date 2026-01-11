@@ -122,11 +122,11 @@ jobs:
         if: github.event_name == 'pull_request' && steps.find-main-run.outputs.run-id != ''
         uses: actions/download-artifact@v7
         continue-on-error: true
-        github-token: ${{ github.token }}
         with:
           name: coverage
           path: coverage-main
           run-id: ${{ steps.find-main-run.outputs.run-id }}
+          github-token: ${{ github.token }}
 
       - name: Check if main coverage artifacts exist
         id: check-main-coverage
