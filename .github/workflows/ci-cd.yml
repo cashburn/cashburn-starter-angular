@@ -102,20 +102,31 @@ jobs:
           path: coverage
 
       - name: Find latest main run id
+        id: find-main-run
+        if: github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          LATEST_MAIN_RUN_ID=$(gh run list --branch main --workflow ci-cd.yml --json databaseId,headBranch,event --jq '.[] | select(.event=="push") | .databaseId' | head -n 1)
-          echo "LATEST_MAIN_RUN_ID=$LATEST_MAIN_RUN_ID" >> $GITHUB_ENV
+          # Get the latest main branch push run (use 'id' field, not 'databaseId')
+          LATEST_MAIN_RUN_ID=$(gh run list --branch main --workflow ci-cd.yml --json id,headBranch,event,status --jq '.[] | select(.event=="push" and .status=="completed") | .id' | head -n 1)
+          
+          if [ -n "$LATEST_MAIN_RUN_ID" ]; then
+            echo "Found main branch run ID: $LATEST_MAIN_RUN_ID"
+            echo "run-id=$LATEST_MAIN_RUN_ID" >> $GITHUB_OUTPUT
+          else
+            echo "No main branch run found"
+            echo "run-id=" >> $GITHUB_OUTPUT
+          fi
 
       - name: Download main coverage artifacts
+        if: github.event_name == 'pull_request' && steps.find-main-run.outputs.run-id != ''
         uses: actions/download-artifact@v4
-        if: ${{ env.LATEST_MAIN_RUN_ID != '' }}
         continue-on-error: true
         with:
           name: coverage
           path: coverage-main
-          run-id: ${{ env.LATEST_MAIN_RUN_ID }}
+          github-token: ${{ github.token }}
+          run-id: ${{ steps.find-main-run.outputs.run-id }}
 
       - name: Coverage Report
         uses: davelosert/vitest-coverage-report-action@v2
