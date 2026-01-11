@@ -2,6 +2,41 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
 
+## Features & Customizations
+
+This starter template includes the following customizations and features:
+
+### Architecture
+
+- **Monorepo** structure with separate `@cashburn/app` application and `@cashburn/core` library
+- **Angular Material** UI component library integrated
+- **Environment-specific configuration** system (`AppConfigStore`) that loads config from JSON files based on environment
+- **Shell component** structure for application layout
+
+### Code Quality & Formatting
+
+- **ESLint** with `angular-eslint` for Angular-specific linting rules
+- **Prettier** integrated with ESLint via `eslint-config-prettier` for code formatting
+- **simple-import-sort** plugin for automatic import sorting
+- **Husky** with `lint-staged` for pre-commit hooks that run ESLint and Prettier
+- **EditorConfig** for consistent code style across editors
+- **VSCode** configuration with recommended extensions and settings
+
+### Testing
+
+- **Vitest** as the test runner (replaces Jasmine/Karma)
+- **@vitest/coverage-v8** for code coverage reporting
+- **JUnit** test reporting format for CI/CD integration
+
+### CI/CD & Infrastructure
+
+- **GitHub Actions** workflows for automated testing, building, and deployment
+- **Azure Static Web Apps** deployment with multi-environment support (dev, prod)
+- **Terraform** for Infrastructure as Code to manage Azure resources
+- **Coverage reporting** with PR comparison against main branch baseline
+- **GitHub repository settings** managed via Terraform
+- Custom domain support configured in Terraform
+
 ## Development server
 
 To start a local development server, run:
