@@ -125,14 +125,26 @@ jobs:
         with:
           name: coverage
           path: coverage-main
-          github-token: ${{ github.token }}
           run-id: ${{ steps.find-main-run.outputs.run-id }}
+
+      - name: Check if main coverage artifacts exist
+        id: check-main-coverage
+        if: github.event_name == 'pull_request'
+        run: |
+          COMPARE_PATH="coverage-main/${{ matrix.project }}/coverage-summary.json"
+          if [ -f "$COMPARE_PATH" ]; then
+            echo "compare-path=$COMPARE_PATH" >> $GITHUB_OUTPUT
+            echo "Main coverage artifacts found for ${{ matrix.project }}"
+          else
+            echo "compare-path=" >> $GITHUB_OUTPUT
+            echo "Main coverage artifacts not found for ${{ matrix.project }}, continuing without compare path"
+          fi
 
       - name: Coverage Report
         uses: davelosert/vitest-coverage-report-action@v2
         with:
           name: ${{ matrix.project }}
-          json-summary-compare-path: coverage-main/${{ matrix.project }}/coverage-summary.json
+          json-summary-compare-path: ${{ steps.check-main-coverage.outputs.compare-path }}
           file-coverage-mode: ${{(github.event_name == 'pull_request' && 'changes') || 'all'}}
           json-summary-path: ./coverage/${{ matrix.project }}/coverage-summary.json
           json-final-path: ./coverage/${{ matrix.project }}/coverage-final.json
