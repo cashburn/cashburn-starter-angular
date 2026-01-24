@@ -1,62 +1,138 @@
 # CashburnStarterAngular
 
+A template for a monorepo Angular application with multiple environments, deployed as an Azure Static Web App using GitHub Actions and Terraform, integrating CI code coverage checks, ESLint, Prettier, and Husky for code quality and formatting.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
 
-## Development server
+# Features
 
-To start a local development server, run:
+This starter template includes the following features:
 
-```bash
-ng serve
+### Architecture
+
+- **Monorepo** structure with separate `@cashburn/app` application and `@cashburn/core` library
+- **Environment-specific configuration** system (`AppConfigStore`) that loads config from JSON files based on environment
+
+### Code Quality & Formatting
+
+- **ESLint** with `angular-eslint` for Angular-specific linting rules
+    - **simple-import-sort** plugin for automatic import sorting
+- **Prettier** integrated with ESLint via `eslint-config-prettier` for code formatting
+- **Husky** with `lint-staged` for pre-commit hooks that run ESLint and Prettier
+- **EditorConfig** for consistent code style across editors
+- **VSCode** configuration with recommended extensions and settings
+
+### Testing
+
+- **Vitest** as the test runner (replaces Jasmine/Karma)
+- **@vitest/coverage-v8** for code coverage reporting
+- **JUnit** test reporting format for CI/CD integration
+
+### CI (Continuous Integration)
+
+- **GitHub Actions** workflow (`/.github/workflows/ci-cd.yml`) runs on pull requests and pushes
+- **Unit testing** with Vitest for both app and core library projects
+- **Code coverage** reporting with `@vitest/coverage-v8` and JUnit XML output
+- **Coverage comparison** on PRs against main branch baseline
+- **Terraform validation** (init, validate, fmt check) to ensure IaC is correct
+- **Build validation** to ensure the application compiles successfully
+
+### CD (Continuous Deployment)
+
+- **GitHub Actions** deployment workflow (`/.github/workflows/deploy-template.yml`)
+- **[Azure Static Web Apps](#azure-static-web-apps)** deployment with [multi-environment](#multiple-environments) support
+- **Terraform** for [Infrastructure as Code](#terraform-azure-iac-infra) to manage Azure resources
+- Automatic deployment on push to main branch (sequential: dev -> prod)
+- Manual deployment via workflow_dispatch for specific environments
+- **[GitHub repository settings](#terraform-github-repository-settings-github-settings)** managed via Terraform
+- Custom domain support configured in Terraform
+
+## Multiple Environments
+
+This project supports multiple deployment environments configured via GitHub Environments and Terraform:
+
+- **dev** - Development environment for testing changes
+- **prod** - Production environment for live deployment
+
+### Deployment Flow
+
+- **Pull Requests**: CI runs (tests, build, validation) but no deployment
+- **Push to main**: Sequential deployment - dev deploys first, then prod (only after dev succeeds)
+- **Manual dispatch**: Can deploy to a specific environment or all environments
+
+### Environment Configuration
+
+Each environment has its own Terraform configuration:
+
+- Environment variables stored in GitHub Environment secrets (`AZURE_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`)
+- Terraform variable files: `/infra/env/{env}.tfvars`
+- Terraform backend configs: `/infra/env/backend.{env}.config`
+- Application config files: `/projects/cashburn/app/config/config.{env}.json`
+
+The application loads the appropriate config JSON file at runtime based on the environment name set in the Angular environment files.
+
+## Terraform GitHub Repository Settings (`/github-settings`)
+
+This project stores GitHub Repository Settings and Rulesets in a Terraform configuration in the `/github-settings` folder. Whenever the `/github-settings` files are updated, a GitHub Action Workflow (`/.github/workflows/apply-github-settings.yml`) is triggered, that updates the Repository Settings to the latest Terraform configuration.
+
+The base configuration was added from another starter project, [cashburn-starter-tf-github-settings](https://github.com/cashburn/cashburn-starter-tf-github-settings), where more details can be found.
+
+**For this to work, you must set up a GitHub PAT or create a GitHub App, following the instructions in the repo above.**
+
+_Note: The workflow will attempt to recreate new GitHub Rulesets each time it is run (because no state file is saved). If you wish to make updates to the Repo Settings/Rulesets, **delete** all the GitHub Rulesets first, and then the workflow will recreate them using the latest configuration._
+
+## Terraform Azure IaC (`/infra`)
+
+The Azure IaC for this project is managed by a Terraform configuration in the `/infra` folder. The infrastructure is deployed as part of the `/.github/workflows/ci-cd.yml` workflow, with Terraform steps in the `/.github/workflows/deploy-template.yml` file.
+
+The base configuration was added from another starter project, [cashburn-starter-tf](https://github.com/cashburn/cashburn-starter-tf), where more details can be found.
+
+## Azure Static Web Apps
+
+The project is hosted using Azure Static Web Apps. Configuration is deployed as part of the [Terraform Azure IaC](#terraform-azure-iac-infra) configuration, and the `/dist` folder is uploaded to the Static Web App in the `/.github/workflows/deploy-template.yml` file.
+
+# Steps to use this in your project
+
+1. TODO
+
+# Running Locally
+
+1. Run `npm install` in the project root directory to install all software dependencies
+2. Run `npm start`
+
+# Unit Tests
+
+1. Run `npm test` locally to run unit tests for all Angular projects in watch mode
+2. Run `npm run test:ci` to run unit tests for the Angular projects specified in the `/package.json`
+    1. Note: If you add additional Angular projects, these must be added as individual `tests:{projectName}` scripts in the `/package.json`
+    2. The `test:ci` script runs all `tests:*` scripts instead of just running one `ng test` to allow for multiple `coverage` folders. Currently with the Angular implementation of Vitest, `ng test` for all projects will generate only one `coverage` folder for all projects, so results for one project get overwritten by the other.
+    3. The `test:ci` script runs the `tests:*` scripts in series (`run-s`) instead of parallel (`run-p`) because there is currently a race condition in the Angular implementation of Vitest and coverage may not be generated intermittently when running multiple dependent projects in parallel. If this becomes a significant performance bottleneck, it could be reassessed in the future.
+
+# Project Structure
+
 ```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+cashburn-starter-angular/
+├── .github/                        # GitHub Actions workflows
+├── .husky/                         # Git hooks configuration for linting/formatting
+├── .vscode/                        # VSCode workspace settings
+├── github-settings/                # Terraform for GitHub Repository Settings (see below)
+├── infra/                          # Terraform Azure IaC (see below)
+├── projects/                       # Monorepo projects
+│   └── cashburn/
+│       ├── app/                    # Main Angular application
+│       │   ├── config/             # Environment-specific config JSON files
+│       │   ├── public/             # Static assets
+│       │   └── src/
+│       │       ├── app/            # Application components, routes, config
+│       │       ├── environments/   # Angular environment files
+│       │       ├── index.html
+│       │       ├── main.ts
+│       │       └── styles.scss
+│       └── core/                   # Shared library
+│           └── src/
+│               └── lib/
+│                   └── app-config/ # App configuration service
 ```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
 # Steps to get here
 
