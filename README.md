@@ -4,7 +4,7 @@ A template for a monorepo Angular application with multiple environments, deploy
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
 
-## Features & Customizations
+# Features
 
 This starter template includes the following features:
 
@@ -71,32 +71,6 @@ Each environment has its own Terraform configuration:
 
 The application loads the appropriate config JSON file at runtime based on the environment name set in the Angular environment files.
 
-## Project Structure
-
-```
-cashburn-starter-angular/
-├── .github/                        # GitHub Actions workflows
-├── .husky/                         # Git hooks configuration for linting/formatting
-├── .vscode/                        # VSCode workspace settings
-├── github-settings/                # Terraform for GitHub Repository Settings (see below)
-├── infra/                          # Terraform Azure IaC (see below)
-├── projects/                       # Monorepo projects
-│   └── cashburn/
-│       ├── app/                    # Main Angular application
-│       │   ├── config/             # Environment-specific config JSON files
-│       │   ├── public/             # Static assets
-│       │   └── src/
-│       │       ├── app/            # Application components, routes, config
-│       │       ├── environments/   # Angular environment files
-│       │       ├── index.html
-│       │       ├── main.ts
-│       │       └── styles.scss
-│       └── core/                   # Shared library
-│           └── src/
-│               └── lib/
-│                   └── app-config/ # App configuration service
-```
-
 ## Terraform GitHub Repository Settings (`/github-settings`)
 
 This project stores GitHub Repository Settings and Rulesets in a Terraform configuration in the `/github-settings` folder. Whenever the `/github-settings` files are updated, a GitHub Action Workflow (`/.github/workflows/apply-github-settings.yml`) is triggered, that updates the Repository Settings to the latest Terraform configuration.
@@ -133,6 +107,32 @@ The project is hosted using Azure Static Web Apps. Configuration is deployed as 
     1. Note: If you add additional Angular projects, these must be added as individual `tests:{projectName}` scripts in the `/package.json`
     2. The `test:ci` script runs all `tests:*` scripts instead of just running one `ng test` to allow for multiple `coverage` folders. Currently with the Angular implementation of Vitest, `ng test` for all projects will generate only one `coverage` folder for all projects, so results for one project get overwritten by the other.
     3. The `test:ci` script runs the `tests:*` scripts in series (`run-s`) instead of parallel (`run-p`) because there is currently a race condition in the Angular implementation of Vitest and coverage may not be generated intermittently when running multiple dependent projects in parallel. If this becomes a significant performance bottleneck, it could be reassessed in the future.
+
+# Project Structure
+
+```
+cashburn-starter-angular/
+├── .github/                        # GitHub Actions workflows
+├── .husky/                         # Git hooks configuration for linting/formatting
+├── .vscode/                        # VSCode workspace settings
+├── github-settings/                # Terraform for GitHub Repository Settings (see below)
+├── infra/                          # Terraform Azure IaC (see below)
+├── projects/                       # Monorepo projects
+│   └── cashburn/
+│       ├── app/                    # Main Angular application
+│       │   ├── config/             # Environment-specific config JSON files
+│       │   ├── public/             # Static assets
+│       │   └── src/
+│       │       ├── app/            # Application components, routes, config
+│       │       ├── environments/   # Angular environment files
+│       │       ├── index.html
+│       │       ├── main.ts
+│       │       └── styles.scss
+│       └── core/                   # Shared library
+│           └── src/
+│               └── lib/
+│                   └── app-config/ # App configuration service
+```
 
 # Steps to get here
 
