@@ -83,6 +83,13 @@ jobs:
           path: coverage/
           retention-days: ${{ github.event_name != 'pull_request' && 60 || 1 }}
 
+      - name: Upload JUnit Test Results (currently unused)
+        uses: actions/upload-artifact@v6
+        if: (!cancelled())
+        with:
+          name: test-results
+          path: test-results/
+
   coverage-report:
     name: Coverage Report (${{ matrix.project }})
     needs: test
@@ -109,7 +116,7 @@ jobs:
         run: |
           # Get the latest main branch push run that succeeded
           LATEST_MAIN_RUN_ID=$(gh run list --branch main --workflow ci-cd.yml --json databaseId,headBranch,event,status,conclusion --jq '.[] | select(.event!="pull_request" and .status=="completed" and .conclusion=="success") | .databaseId' | head -n 1)
-          
+
           if [ -n "$LATEST_MAIN_RUN_ID" ]; then
             echo "Found main branch run ID: $LATEST_MAIN_RUN_ID"
             echo "run-id=$LATEST_MAIN_RUN_ID" >> $GITHUB_OUTPUT

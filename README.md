@@ -1,23 +1,23 @@
 # CashburnStarterAngular
 
+A template for a monorepo Angular application with multiple environments, deployed as an Azure Static Web App using GitHub Actions and Terraform, integrating CI code coverage checks, ESLint, Prettier, and Husky for code quality and formatting.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
 
 ## Features & Customizations
 
-This starter template includes the following customizations and features:
+This starter template includes the following features:
 
 ### Architecture
 
 - **Monorepo** structure with separate `@cashburn/app` application and `@cashburn/core` library
-- **Angular Material** UI component library integrated
 - **Environment-specific configuration** system (`AppConfigStore`) that loads config from JSON files based on environment
-- **Shell component** structure for application layout
 
 ### Code Quality & Formatting
 
 - **ESLint** with `angular-eslint` for Angular-specific linting rules
+    - **simple-import-sort** plugin for automatic import sorting
 - **Prettier** integrated with ESLint via `eslint-config-prettier` for code formatting
-- **simple-import-sort** plugin for automatic import sorting
 - **Husky** with `lint-staged` for pre-commit hooks that run ESLint and Prettier
 - **EditorConfig** for consistent code style across editors
 - **VSCode** configuration with recommended extensions and settings
@@ -117,61 +117,22 @@ The base configuration was added from another starter project, [cashburn-starter
 
 The project is hosted using Azure Static Web Apps. Configuration is deployed as part of the [Terraform Azure IaC](#terraform-azure-iac-infra) configuration, and the `/dist` folder is uploaded to the Static Web App in the `/.github/workflows/deploy-template.yml` file.
 
-## Development server
+# Steps to use this in your project
 
-To start a local development server, run:
+1. TODO
 
-```bash
-ng serve
-```
+# Running Locally
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+1. Run `npm install` in the project root directory to install all software dependencies
+2. Run `npm start`
 
-## Code scaffolding
+# Unit Tests
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Run `npm test` locally to run unit tests for all Angular projects in watch mode
+2. Run `npm run test:ci` to run unit tests for the Angular projects specified in the `/package.json`
+    1. Note: If you add additional Angular projects, these must be added as individual `tests:{projectName}` scripts in the `/package.json`
+    2. The `test:ci` script runs all `tests:*` scripts instead of just running one `ng test` to allow for multiple `coverage` folders. Currently with the Angular implementation of Vitest, `ng test` for all projects will generate only one `coverage` folder for all projects, so results for one project get overwritten by the other.
+    3. The `test:ci` script runs the `tests:*` scripts in series (`run-s`) instead of parallel (`run-p`) because there is currently a race condition in the Angular implementation of Vitest and coverage may not be generated intermittently when running multiple dependent projects in parallel. If this becomes a significant performance bottleneck, it could be reassessed in the future.
 
 # Steps to get here
 
