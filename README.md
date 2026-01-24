@@ -28,14 +28,94 @@ This starter template includes the following customizations and features:
 - **@vitest/coverage-v8** for code coverage reporting
 - **JUnit** test reporting format for CI/CD integration
 
-### CI/CD & Infrastructure
+### CI (Continuous Integration)
 
-- **GitHub Actions** workflows for automated testing, building, and deployment
-- **Azure Static Web Apps** deployment with multi-environment support (dev, prod)
-- **Terraform** for Infrastructure as Code to manage Azure resources
-- **Coverage reporting** with PR comparison against main branch baseline
-- **GitHub repository settings** managed via Terraform
+- **GitHub Actions** workflow (`/.github/workflows/ci-cd.yml`) runs on pull requests and pushes
+- **Unit testing** with Vitest for both app and core library projects
+- **Code coverage** reporting with `@vitest/coverage-v8` and JUnit XML output
+- **Coverage comparison** on PRs against main branch baseline
+- **Terraform validation** (init, validate, fmt check) to ensure IaC is correct
+- **Build validation** to ensure the application compiles successfully
+
+### CD (Continuous Deployment)
+
+- **GitHub Actions** deployment workflow (`/.github/workflows/deploy-template.yml`)
+- **[Azure Static Web Apps](#azure-static-web-apps)** deployment with [multi-environment](#multiple-environments) support
+- **Terraform** for [Infrastructure as Code](#terraform-azure-iac-infra) to manage Azure resources
+- Automatic deployment on push to main branch (sequential: dev -> prod)
+- Manual deployment via workflow_dispatch for specific environments
+- **[GitHub repository settings](#terraform-github-repository-settings-github-settings)** managed via Terraform
 - Custom domain support configured in Terraform
+
+## Multiple Environments
+
+This project supports multiple deployment environments configured via GitHub Environments and Terraform:
+
+- **dev** - Development environment for testing changes
+- **prod** - Production environment for live deployment
+
+### Deployment Flow
+
+- **Pull Requests**: CI runs (tests, build, validation) but no deployment
+- **Push to main**: Sequential deployment - dev deploys first, then prod (only after dev succeeds)
+- **Manual dispatch**: Can deploy to a specific environment or all environments
+
+### Environment Configuration
+
+Each environment has its own Terraform configuration:
+
+- Environment variables stored in GitHub Environment secrets (`AZURE_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`)
+- Terraform variable files: `/infra/env/{env}.tfvars`
+- Terraform backend configs: `/infra/env/backend.{env}.config`
+- Application config files: `/projects/cashburn/app/config/config.{env}.json`
+
+The application loads the appropriate config JSON file at runtime based on the environment name set in the Angular environment files.
+
+## Project Structure
+
+```
+cashburn-starter-angular/
+├── .github/                        # GitHub Actions workflows
+├── .husky/                         # Git hooks configuration for linting/formatting
+├── .vscode/                        # VSCode workspace settings
+├── github-settings/                # Terraform for GitHub Repository Settings (see below)
+├── infra/                          # Terraform Azure IaC (see below)
+├── projects/                       # Monorepo projects
+│   └── cashburn/
+│       ├── app/                    # Main Angular application
+│       │   ├── config/             # Environment-specific config JSON files
+│       │   ├── public/             # Static assets
+│       │   └── src/
+│       │       ├── app/            # Application components, routes, config
+│       │       ├── environments/   # Angular environment files
+│       │       ├── index.html
+│       │       ├── main.ts
+│       │       └── styles.scss
+│       └── core/                   # Shared library
+│           └── src/
+│               └── lib/
+│                   └── app-config/ # App configuration service
+```
+
+## Terraform GitHub Repository Settings (`/github-settings`)
+
+This project stores GitHub Repository Settings and Rulesets in a Terraform configuration in the `/github-settings` folder. Whenever the `/github-settings` files are updated, a GitHub Action Workflow (`/.github/workflows/apply-github-settings.yml`) is triggered, that updates the Repository Settings to the latest Terraform configuration.
+
+The base configuration was added from another starter project, [cashburn-starter-tf-github-settings](https://github.com/cashburn/cashburn-starter-tf-github-settings), where more details can be found.
+
+**For this to work, you must set up a GitHub PAT or create a GitHub App, following the instructions in the repo above.**
+
+_Note: The workflow will attempt to recreate new GitHub Rulesets each time it is run (because no state file is saved). If you wish to make updates to the Repo Settings/Rulesets, **delete** all the GitHub Rulesets first, and then the workflow will recreate them using the latest configuration._
+
+## Terraform Azure IaC (`/infra`)
+
+The Azure IaC for this project is managed by a Terraform configuration in the `/infra` folder. The infrastructure is deployed as part of the `/.github/workflows/ci-cd.yml` workflow, with Terraform steps in the `/.github/workflows/deploy-template.yml` file.
+
+The base configuration was added from another starter project, [cashburn-starter-tf](https://github.com/cashburn/cashburn-starter-tf), where more details can be found.
+
+## Azure Static Web Apps
+
+The project is hosted using Azure Static Web Apps. Configuration is deployed as part of the [Terraform Azure IaC](#terraform-azure-iac-infra) configuration, and the `/dist` folder is uploaded to the Static Web App in the `/.github/workflows/deploy-template.yml` file.
 
 ## Development server
 
