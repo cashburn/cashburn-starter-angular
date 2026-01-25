@@ -93,6 +93,16 @@ The project is hosted using Azure Static Web Apps. Configuration is deployed as 
 
 # Steps to use this in your project
 
+**Important: If you use this starter project, you MUST update these files especially!!!**
+
+- `/.github/CODEOWNERS` -
+  CODEOWNERS requires that any updates in specific folders get approved by a particular person. It is provided as an example, but you MUST change it for security reasons. And I'm guessing you don't want every CI/CD change in your repo to require approval from `@cashburn` :wink:
+- `/infra/env/dev.tfvars` - You MUST use your own custom domain name (if you have one)
+- `/infra/env/prod.tfvars` - You MUST use your own custom domain name (if you have one)
+    - If you do NOT have a Custom Domain name, comment out the `custom_domain` resource in the `/infra/main.tf` file
+- `/infra/backend.dev.config` - You MUST use a different storage_account_name
+- `/infra/backend.prod.config` - You MUST use a different storage_account_name
+
 ## Option 1 - Use the GitHub template
 
 `cashburn-starter-angular` is a public template on GitHub. On the repo homepage, there should be a button on the right that says "Use this template".
@@ -209,6 +219,7 @@ The project is hosted using Azure Static Web Apps. Configuration is deployed as 
         1. `/infra/env/backend.*.config`
         2. `/infra/env/*.tfvars`
 2. Run Bootstrap script to set up Azure infrastructure, using guidance from [cashburn-starter-tf](https://github.com/cashburn/cashburn-starter-tf?tab=readme-ov-file#run-bootstrap-script)
+3. Update CODEOWNERS file
 
 # Running Locally
 
