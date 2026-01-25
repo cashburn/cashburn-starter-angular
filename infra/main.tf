@@ -17,6 +17,7 @@ resource "azurerm_static_web_app" "swa" {
   }
 }
 
+## IMPORTANT: Comment this out if you do not have a custom domain name!! ##
 resource "azurerm_static_web_app_custom_domain" "custom_domain" {
   static_web_app_id = azurerm_static_web_app.swa.id
   domain_name       = var.app_url
