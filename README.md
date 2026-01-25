@@ -219,7 +219,13 @@ The project is hosted using Azure Static Web Apps. Configuration is deployed as 
         1. `/infra/env/backend.*.config`
         2. `/infra/env/*.tfvars`
 2. Run Bootstrap script to set up Azure infrastructure, using guidance from [cashburn-starter-tf](https://github.com/cashburn/cashburn-starter-tf?tab=readme-ov-file#run-bootstrap-script)
-3. Update CODEOWNERS file
+3. Add GitHub Actions Repository variables
+    1. AZURE_CLIENT_ID
+    2. AZURE_TENANT_ID
+    3. AZURE_SUSCRIPTION_ID
+4. Generate GH_PAT for [cashburn-starter-tf-github-settings](https://github.com/cashburn/cashburn-starter-tf-github-settings)
+    1. Add it as a GitHub Actions Repository secret
+5. Update CODEOWNERS file
 
 # Running Locally
 
