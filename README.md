@@ -93,7 +93,122 @@ The project is hosted using Azure Static Web Apps. Configuration is deployed as 
 
 # Steps to use this in your project
 
-1. TODO
+## Option 1 - Use the GitHub template
+
+`cashburn-starter-angular` is a public template on GitHub. On the repo homepage, there should be a button on the right that says "Use this template".
+
+1. Click `Use this template` -> `Create a new repository`
+2. Clone the new repo
+3. Rename the project folders from `cashburn` to `myapp`
+    1. `projects/cashburn/app` -> `projects/myapp/app`
+    2. `projects/cashburn/core` -> `projects/myapp/core`
+4. Find and replace `cashburn` with your app name prefix (Ex. `myapp`)
+    1. `angular.json`
+        1. All the project names/directories
+    2. `package.json`
+        1. Library names
+    3. `tsconfig.json`
+        1. Library names/directories
+    4. `.github/workflows/deploy-template.yml`
+        1. Library names
+    5. `/projects/myapp/app/src/index.html`
+        1. App Title
+    6. `/projects/myapp/app/src/app/app.config.ts`
+        1. Imports
+    7. `/projects/myapp/app/src/app/app.spec.ts`
+        1. Imports
+    8. `/projects/myapp/app/src/app/app.ts`
+        1. App Title
+    9. `/projects/myapp/app/src/app/shell/shell.spec.ts`
+        1. Imports
+    10. `/projects/myapp/app/src/app/shell/shell.ts`
+        1. Imports
+    11. `/projects/myapp/core/ng-package.json`
+        1. Destination folder
+    12. `/projects/myapp/core/package.json`
+        1. Library name
+5. Run `npm install`
+6. Continue to [Set up infra](#set-up-infra) section
+
+## Option 2 - Create a new repo and copy files
+
+1. Clone this repository (to copy files from later)
+2. Create a new Angular repo
+    1. `ng new myapp-starter-test --create-application=false`
+3. `ng new myapp-starter-test --create-application=false`
+4. `ng generate application @myapp/app`
+    1. Choose SCSS
+5. `ng generate library @myapp/core`
+6. `npm install --save-dev @vitest/coverage-v8 angular-eslint eslint eslint-config-prettier eslint-plugin-simple-import-sort husky lint-staged npm-run-all-next prettier typescript-eslint vitest`
+7. `ng add @angular/material`
+8. Copy files from `cashburn-starter-angular`
+    1. Copy the generic files from `cashburn-starter-angular`
+        1. .editorconfig
+        2. .gitignore
+        3. .eslint.config.js
+        4. `.vscode/`
+            1. Along with all its contents
+        5. `.husky/`
+            1. Along with at least the `pre-commit` file
+
+        ```bash
+        cp -r ../cashburn-starter-angular/.editorconfig ../cashburn-starter-angular/.gitignore ../cashburn-starter-angular/eslint.config.js ../cashburn-starter-angular/.vscode ../cashburn-starter-angular/.husky .
+        ```
+
+    2. Copy the Angular projects from `cashburn-starter-angular`
+        1. `projects/cashburn/app` -> `projects/myapp/app`
+        2. `projects/cashburn/core` -> `projects/myapp/core`
+
+        ```bash
+        cp -r ../cashburn-starter-angular/projects/cashburn/app ./projects/myapp/
+        cp -r ../cashburn-starter-angular/projects/cashburn/core ./projects/myapp/
+        ```
+
+    3. Copy the `angular.json` file from `cashburn-starter-angular` (or copy just the project configurations; we mostly need the coverage/eslint/environment file replacements)
+        1. `cp ../cashburn-starter-angular/angular.json .`
+    4. Copy the `tsconfig.json` file from `cashburn-starter-angular` (or just copy the `compilerOptions.paths` field)
+        1. `cp ../cashburn-starter-angular/tsconfig.json .`
+
+    5. Copy these sections from the `/package.json`:
+        1. `scripts`
+        2. `prettier`
+        3. `engines` - Replace this with whichever version of NodeJs you would like to use
+        4. `lint-staged`
+    6. Find and replace from `cashburn` to `myapp`. Changes should be in:
+        1. `/angular.json`
+            1. All the project names/directories
+            2. **You'll want to change the `cli.analytics` field back if you had it set in your app**
+        2. `/projects/myapp/app/src/index.html`
+            1. App Title
+        3. `/projects/myapp/app/src/app/app.config.ts`
+            1. Imports
+        4. `/projects/myapp/app/src/app/app.spec.ts`
+            1. Imports
+        5. `/projects/myapp/app/src/app/app.ts`
+            1. App Title
+        6. `/projects/myapp/app/src/app/shell/shell.spec.ts`
+            1. Imports
+        7. `/projects/myapp/app/src/app/shell/shell.ts`
+            1. Imports
+        8. `/projects/myapp/core/ng-package.json`
+            1. Destination folder
+        9. `/projects/myapp/core/package.json`
+            1. Library name
+    7. Copy `/infra`
+    8. Copy `/.github`
+        1. **Replace `cashburn` with `myapp` in `.github/workflows/deploy-template.yml`**
+    9. Copy `.vscode`
+    10. Copy `github-settings`
+    11. Run `npm run prettier:fix`
+    12. Continue to [Set up infra](#set-up-infra) section
+
+## Set up infra
+
+1. Update `/infra` folder
+    1. Configure all values in these files. Reference [cashburn-starter-tf](https://github.com/cashburn/cashburn-starter-tf) for more details on each config value.
+        1. `/infra/env/backend.*.config`
+        2. `/infra/env/*.tfvars`
+2. Run Bootstrap script to set up Azure infrastructure, using guidance from [cashburn-starter-tf](https://github.com/cashburn/cashburn-starter-tf?tab=readme-ov-file#run-bootstrap-script)
 
 # Running Locally
 
@@ -102,7 +217,7 @@ The project is hosted using Azure Static Web Apps. Configuration is deployed as 
 
 # Unit Tests
 
-1. Run `npm test` locally to run unit tests for all Angular projects in watch mode
+1. Run `ng test {projectName}` locally to run unit tests for one Angular project in watch mode
 2. Run `npm run test:ci` to run unit tests for the Angular projects specified in the `/package.json`
     1. Note: If you add additional Angular projects, these must be added as individual `tests:{projectName}` scripts in the `/package.json`
     2. The `test:ci` script runs all `tests:*` scripts instead of just running one `ng test` to allow for multiple `coverage` folders. Currently with the Angular implementation of Vitest, `ng test` for all projects will generate only one `coverage` folder for all projects, so results for one project get overwritten by the other.
@@ -136,7 +251,7 @@ cashburn-starter-angular/
 
 # Steps to get here
 
-1. `ng new cashburn-starter-angular --create-applicatino=false`
+1. `ng new cashburn-starter-angular --create-application=false`
     1. Select Gemini
 2. Add `.editorconfig` changes
 3. `ng add angular-eslint`

@@ -6,7 +6,6 @@
     "start": "ng serve",
     "build": "ng build @cashburn/app --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
     "test:ci": "run-s tests:*",
     "tests:app": "ng test @cashburn/app --watch=false --coverage --coverage-reporters=text-summary --coverage-reporters=json --coverage-reporters=json-summary --reporters=default --reporters=junit --output-file=test-results/app.xml",
     "tests:core": "ng test @cashburn/core --watch=false --coverage --coverage-reporters=text-summary --coverage-reporters=json --coverage-reporters=json-summary --reporters=default --reporters=junit --output-file=test-results/core.xml",
