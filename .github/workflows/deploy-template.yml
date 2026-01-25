@@ -67,6 +67,7 @@ jobs:
         run: terraform apply tfplan
 
       - name: Get Static Web App API Key
+        if: ${{ inputs.destroy == false }}
         working-directory: infra
         run: |
           echo "SWA_API_KEY=$(terraform output -raw static_web_app_api_key)" >> $GITHUB_ENV
